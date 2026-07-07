@@ -1,0 +1,13 @@
+name: fac-s2s
+version: 1.0.0
+description: "Fun-Audio-Chat (FAC) server-side voice provider — bridges Alibaba Fun-Audio-Chat 8B as TTS + STT backends for all gateway clients (Telegram, Discord, CLI, etc.). Registers `fac` TTS and `fac` transcription providers via the Hermes plugin TTS/STT provider hooks. Requires a running FAC server at ws://127.0.0.1:11236/chat."
+author: Hermes Agent Community
+kind: backend
+provides_tools: []
+requires_env:
+  - key: FAC_WS_URL
+    description: "WebSocket URL for FAC server (default: ws://127.0.0.1:11236/chat)"
+    default: "ws://127.0.0.1:11236/chat"
+  - key: FAC_TIMEOUT
+    description: "Seconds to wait for FAC server response (default: 30)"
+    default: "30"
