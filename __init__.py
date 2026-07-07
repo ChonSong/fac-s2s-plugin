@@ -146,6 +146,16 @@ class FACTTSProvider(TTSProvider):
         standard JSON error envelope.
         """
         from .fac_bridge import run_async
+        from .emotional_context import EmotionalContext
+
+        # Apply emotional context from SOUL.md + USER.md
+        try:
+            emo = EmotionalContext()
+            conditioned_text = emo.render(text)
+            logger.info("FAC TTS: conditioned text -> %r", conditioned_text.splitlines()[0])
+        except Exception as exc:
+            logger.warning("Failed to construct emotional context: %s. Using raw text.", exc)
+            conditioned_text = text
 
         config: Dict[str, Any] = {}
         if speed is not None:
@@ -159,7 +169,7 @@ class FACTTSProvider(TTSProvider):
         try:
             result = run_async(
                 client.synthesize_to_file(
-                    text=text,
+                    text=conditioned_text,
                     output_path=output_path,
                     voice=voice,
                     **config,
